@@ -183,6 +183,54 @@ async function addTextOverlay(imagePath, text, outputPath) {
     }
 }
 
+// Function to extract Reddit post content
+async function getRedditPostContent(url) {
+    try {
+        // Convert URL to JSON API URL
+        // Example: https://www.reddit.com/r/subreddit/comments/123abc/title
+        // to: https://www.reddit.com/r/subreddit/comments/123abc.json
+        const jsonUrl = url.replace(/\/$/, '') + '.json';
+        
+        const response = await axios.get(jsonUrl, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
+        });
+
+        // Get the post data from the response
+        const postData = response.data[0].data.children[0].data;
+        
+        // Get the post content (selftext) and title
+        const title = postData.title;
+        const content = postData.selftext;
+        
+        // Combine title and content
+        const fullContent = `${title}\n\n${content}`;
+        
+        // Check if content is empty
+        if (!content.trim()) {
+            throw new Error('Reddit post has no text content');
+        }
+        
+        return fullContent;
+    } catch (error) {
+        if (error.response) {
+            // Handle specific HTTP errors
+            switch (error.response.status) {
+                case 404:
+                    throw new Error('Reddit post not found');
+                case 403:
+                    throw new Error('Access to Reddit post forbidden');
+                case 429:
+                    throw new Error('Rate limit exceeded for Reddit API');
+                default:
+                    throw new Error(`Error fetching Reddit post: ${error.response.status}`);
+            }
+        }
+        throw error;
+    }
+}
+
 // Function to combine frames back into video
 async function combineFrames(framesDir, outputPath, fps = 30) {
     return new Promise((resolve, reject) => {
@@ -211,12 +259,18 @@ app.post('/process-video', async (req, res) => {
         const { videoId, text, isRedditPost } = req.body;
         
         // Get actual text content (from Reddit if necessary)
-        let textContent = text;
+        let textContent;
         if (isRedditPost) {
-            // Add Reddit API processing here
-            // For now, just using the text directly
+            try {
+                textContent = await getRedditPostContent(text); // Here 'text' would be the Reddit URL
+                console.log('Successfully extracted Reddit content');
+            } catch (error) {
+                throw new Error(`Failed to get Reddit content: ${error.message}`);
+            }
+        } else {
+            textContent = text;
         }
-        
+        console.log(textContent);
         // 1. Generate speech from text
         const audioPath = path.join(TEMP_DIR, 'speech.mp3');
         await textToSpeech(textContent, audioPath);
@@ -299,8 +353,8 @@ app.post('/process-video', async (req, res) => {
         });
         
         // Cleanup temp files (commented out for debugging)
-        // await fsPromises.rm(TEMP_DIR, { recursive: true, force: true });
-        // await fsPromises.mkdir(TEMP_DIR);
+        await fsPromises.rm(TEMP_DIR, { recursive: true, force: true });
+        await fsPromises.mkdir(TEMP_DIR);
         
         res.json({ 
             success: true, 
