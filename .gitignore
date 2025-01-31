@@ -29,6 +29,7 @@ tests
 
 # Ignore node_modules
 node_modules
+output
 
 # Ignore built files
 build

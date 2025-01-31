@@ -324,7 +324,7 @@ app.post('/process-video', async (req, res) => {
         await combineFrames(framesDir, processedVideoPath);
         
         // 6. Add audio to video
-        const finalOutputPath = path.join(OUTPUT_DIR, `${Date.now()}.mp4`);
+        const finalOutputPath = path.join(OUTPUT_DIR, `${videoId}.mp4`);
         await new Promise((resolve, reject) => {
             ffmpeg()
                 .input(processedVideoPath)
@@ -369,9 +369,61 @@ app.post('/process-video', async (req, res) => {
         res.status(500).json({ 
             success: false, 
             error: error.message 
-        });
+        }); 
     }
 });
+
+// Endpoint to get a specific video by ID
+app.get('/video/:videoId', (req, res) => {
+    const videoPath = path.join(OUTPUT_DIR, `${req.params.videoId}.mp4`);
+
+    // Validate video ID to prevent directory traversal
+    if (req.params.videoId.includes('/') || req.params.videoId.includes('\\')) {
+        return res.status(400).json({ error: 'Invalid video ID' });
+    }
+
+    // Check if file exists
+    if (!fs.existsSync(videoPath)) {
+        return res.status(404).json({ error: 'Video not found' });
+    }
+
+    // Get file stats
+    const stat = fs.statSync(videoPath);
+    const fileSize = stat.size;
+    const range = req.headers.range;
+
+    if (range) {
+        // Handle range requests (for video streaming)
+        const parts = range.replace(/bytes=/, "").split("-");
+        const start = parseInt(parts[0], 10);
+        const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+        
+        if (start >= fileSize) {
+            res.status(416).json({ error: 'Requested range not satisfiable' });
+            return;
+        }
+
+        const chunksize = (end - start) + 1;
+        const file = fs.createReadStream(videoPath, { start, end });
+        const head = {
+            'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+            'Accept-Ranges': 'bytes',
+            'Content-Length': chunksize,
+            'Content-Type': 'video/mp4',
+        };
+
+        res.writeHead(206, head);
+        file.pipe(res);
+    } else {
+        // Handle non-range requests
+        const head = {
+            'Content-Length': fileSize,
+            'Content-Type': 'video/mp4',
+        };
+        res.writeHead(200, head);
+        fs.createReadStream(videoPath).pipe(res);
+    }
+})
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
