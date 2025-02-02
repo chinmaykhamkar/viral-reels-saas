@@ -9,9 +9,11 @@ const gTTS = require('gtts');
 const sharp = require('sharp');
 const axios = require('axios');
 require("dotenv").config();
+const cors = require('cors');
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 // Configuration
 const VIDEOS_DIR = path.join(__dirname, 'videos');

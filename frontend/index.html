@@ -357,7 +357,7 @@
           console.log('Connection lost');
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
     // Template video configurations
     const templates = [
         {
@@ -406,7 +406,9 @@ function createTemplateCard(template) {
         </div>
         <div class="p-4">
             <h3 class="text-xl font-bold text-white mb-2">${template.name}</h3>
-            <button class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300">
+            <button 
+                onclick="window.location.href='create.html?template=${template.id}'"
+                class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition duration-300">
                 Use Template
             </button>
         </div>
@@ -440,7 +442,9 @@ function setupVideoInteractions() {
         });
     });
 }
-      </script>
+
+
+</script>
    </head>
    <body class="antialiased text-gray-800 min-h-screen flex flex-col">
       <!-- Skip to main content link for accessibility -->
