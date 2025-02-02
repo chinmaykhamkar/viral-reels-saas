@@ -4,7 +4,17 @@ document.addEventListener('DOMContentLoaded', function() {
         {
             id: 'template1',
             videoSrc: 'template1.mp4',
+            name: 'Mincreaft Parkour'
+        },
+        {
+            id: 'template2',
+            videoSrc: 'video/template2.mp4',
             name: 'Subway Surfers'
+        },
+        {
+            id: 'template3',
+            videoSrc: 'video/template3.mp4',
+            name: 'Car Stunts'
         }
     ];
 
