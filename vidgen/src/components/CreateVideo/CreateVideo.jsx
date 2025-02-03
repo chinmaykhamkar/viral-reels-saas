@@ -25,6 +25,7 @@ const CreateVideo = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [outputVideoUrl, setOutputVideoUrl] = useState('');
+  const [showOutput, setShowOutput] = useState(false);  // Add this line
   const videoRef = useRef(null);
   const outputVideoRef = useRef(null);
   const templateId = searchParams.get('template');
