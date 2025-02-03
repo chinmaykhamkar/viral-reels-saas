@@ -1,0 +1,154 @@
+/* Hero.css */
+.hero {
+    padding: 8rem 0 4rem;
+    background-color: var(--neutral-900);
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+  }
+  
+  .hero-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  
+  .hero-content {
+    max-width: 600px;
+  }
+  
+  .hero-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+  
+  .hero-content h1 span {
+    color: var(--primary-color);
+  }
+  
+  .hero-content p {
+    font-size: 1.25rem;
+    color: var(--gray-300);
+    margin-bottom: 2rem;
+  }
+  
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .hero-features {
+    display: flex;
+    gap: 2rem;
+    color: var(--gray-400);
+  }
+  
+  .hero-feature {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .hero-feature svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--primary-color);
+  }
+  
+  .hero-generator {
+    background-color: var(--neutral-800);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .generator-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .window-controls {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .control {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+  }
+  
+  .control.red {
+    background-color: #EF4444;
+  }
+  
+  .control.yellow {
+    background-color: #F59E0B;
+  }
+  
+  .control.green {
+    background-color: #10B981;
+  }
+  
+  .hero-generator textarea {
+    width: 100%;
+    height: 8rem;
+    background-color: var(--neutral-700);
+    border: none;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    color: var(--white);
+    margin-bottom: 1rem;
+    resize: none;
+  }
+  
+  .hero-generator textarea:focus {
+    outline: 2px solid var(--primary-color);
+  }
+  
+  .generator-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .generator-buttons button {
+    flex: 1;
+  }
+  
+  .btn-success {
+    background-color: #10B981;
+    color: var(--white);
+  }
+  
+  .btn-success:hover {
+    background-color: #059669;
+  }
+  
+  @media (max-width: 1024px) {
+    .hero-content h1 {
+      font-size: 2.5rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .hero-container {
+      grid-template-columns: 1fr;
+    }
+  
+    .hero-content {
+      text-align: center;
+    }
+  
+    .hero-buttons {
+      justify-content: center;
+    }
+  
+    .hero-features {
+      justify-content: center;
+    }
+  }

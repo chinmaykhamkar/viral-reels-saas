@@ -272,7 +272,7 @@ app.post('/process-video', async (req, res) => {
         } else {
             textContent = text;
         }
-        console.log(textContent);
+        console.log('rht', textContent);
         // 1. Generate speech from text
         const audioPath = path.join(TEMP_DIR, 'speech.mp3');
         await textToSpeech(textContent, audioPath);
@@ -357,15 +357,11 @@ app.post('/process-video', async (req, res) => {
         // Cleanup temp files (commented out for debugging)
         await fsPromises.rm(TEMP_DIR, { recursive: true, force: true });
         await fsPromises.mkdir(TEMP_DIR);
-        
-        res.json({ 
+        res.status(200).json({ 
             success: true, 
-            outputPath: finalOutputPath,
-            audioDuration,
-            originalVideoDuration: await getMediaDuration(originalVideoPath),
-            finalVideoDuration: await getMediaDuration(videoPath)
+            outputPath: `/video/${videoId}`
         });
-        
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ 
