@@ -161,10 +161,16 @@ async function addTextOverlay(imagePath, text, outputPath) {
                     font-size: ${fontSize}px;
                     font-weight: bold;
                     font-family: 'Arial';
-                    filter: drop-shadow(3px 3px 3px rgba(0,0,0,0.7));
+                    filter: drop-shadow(3px 3px 3px rgba(0,0,0,0.9));
                 }
             </style>
-            <text x="50%" y="90%" text-anchor="middle" class="title">${text}</text>
+            <text 
+                x="50%" 
+                y="50%" 
+                text-anchor="middle" 
+                dominant-baseline="middle" 
+                class="title"
+            >${text}</text>
         </svg>
     `;
 
