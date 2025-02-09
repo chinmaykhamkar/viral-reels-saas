@@ -82,21 +82,37 @@ DEEPGRAM_API_KEY=your_deepgram_api_key
 sequenceDiagram
     participant Client
     participant Server
+    participant GTTS
     participant Deepgram
-    participant Reddit
     participant FFmpeg
+    participant Sharp
 
-    Client->>Server: POST /process-video
+    Client->>Server: POST /process-video (text/reddit url)
     alt is Reddit post
-        Server->>Reddit: Fetch post content
-        Reddit-->>Server: Return post text
+        Server->>Server: Fetch Reddit JSON
+        Note over Server: Append .json to Reddit URL
     end
-    Server->>Deepgram: Process text for timing
+    
+    Server->>GTTS: Convert text to speech
+    GTTS-->>Server: Return speech.mp3
+    
+    Server->>Deepgram: Process speech for timing
     Deepgram-->>Server: Return word timestamps
-    Server->>FFmpeg: Split template video
-    FFmpeg-->>Server: Return video segments
-    Server->>FFmpeg: Combine segments with text
+    
+    Server->>FFmpeg: Extract frames from template
+    FFmpeg-->>Server: Return video frames
+    
+    loop For each frame
+        Server->>Sharp: Add text overlay based on timestamp
+        Sharp-->>Server: Return processed frame
+    end
+    
+    Server->>FFmpeg: Combine frames into video
+    FFmpeg-->>Server: Return processed video
+    
+    Server->>FFmpeg: Add speech audio to video
     FFmpeg-->>Server: Return final video
+    
     Server-->>Client: Return video URL
     Client->>Server: GET /video/:filename
     Server-->>Client: Stream video content
