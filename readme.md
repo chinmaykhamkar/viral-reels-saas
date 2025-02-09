@@ -15,39 +15,11 @@ A web application that generates video content by combining template videos with
 - Video processing with FFmpeg
 - Video streaming with range request support
 
-## Project Structure
-
-```
-video-content-generator/
-├── frontend/
-│   ├── public/
-│   │   ├── video/
-│   │   │   ├── template1.mp4
-│   │   │   ├── template2.mp4
-│   │   │   └── template3.mp4
-│   │   ├── index.html
-│   │   └── styles.css
-│   └── src/
-│       └── main.js
-├── backend/
-│   ├── routes/
-│   │   ├── video.js
-│   │   └── reddit.js
-│   ├── services/
-│   │   ├── deepgram.js
-│   │   └── videoProcessor.js
-│   ├── output/
-│   └── server.js
-├── package.json
-└── README.md
-```
-
 ## Prerequisites
 
 - Node.js (v14 or higher)
 - FFmpeg installed on your system
 - Deepgram API key
-- Reddit API credentials (if using Reddit functionality)
 
 ## Installation
 
@@ -55,8 +27,8 @@ video-content-generator/
 
 ```bash
 # Clone the repository
-git clone [your-repo-url]
-cd video-content-generator
+git clone https://github.com/chinmaykhamkar/viral-reels-saas.git
+cd viral-reels-saas
 
 # Install backend dependencies
 cd backend
@@ -67,9 +39,6 @@ cp .env.example .env
 
 # Add your API keys to .env
 DEEPGRAM_API_KEY=your_key_here
-REDDIT_CLIENT_ID=your_id_here
-REDDIT_CLIENT_SECRET=your_secret_here
-REDDIT_USER_AGENT=your_app_name
 ```
 
 ### Frontend Setup
@@ -103,11 +72,6 @@ Download from [FFmpeg official website](https://ffmpeg.org/download.html)
 
 ```env
 DEEPGRAM_API_KEY=your_deepgram_api_key
-REDDIT_CLIENT_ID=your_reddit_client_id
-REDDIT_CLIENT_SECRET=your_reddit_client_secret
-REDDIT_USER_AGENT=your_reddit_user_agent
-PORT=3000
-OUTPUT_DIR=./output
 ```
 
 ## System Architecture
@@ -151,9 +115,6 @@ Process text content and generate video
     "isRedditPost": false
 }
 ```
-
-### GET /videos
-Get list of all generated videos
 
 ### GET /video/:filename
 Stream a specific video file
