@@ -32,7 +32,7 @@ cd viral-reels-saas
 
 # Install backend dependencies
 cd backend
-npm install express axios dotenv ffmpeg-static @deepgram/sdk snoowrap
+npm install express axios dotenv fluent-ffmpeg @deepgram/sdk gtts sharp cors
 
 # Create .env file
 cp .env.example .env
