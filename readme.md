@@ -45,11 +45,11 @@ DEEPGRAM_API_KEY=your_key_here
 
 ```bash
 # Install frontend dependencies
-cd frontend
+cd vidgen
 npm install
 
-# Build frontend assets
-npm run build
+# run the frontend
+npm run dev
 ```
 
 ### FFmpeg Installation
