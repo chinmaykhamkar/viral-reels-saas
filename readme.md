@@ -4,8 +4,13 @@ A web application that generates video content by combining template videos with
 
 ## Demo
 
-[Demo](https://raw.githubusercontent.com/chinmaykhamkar/viral-reels-saas/master/demo.mp4)
+[Demo Video](https://raw.githubusercontent.com/chinmaykhamkar/viral-reels-saas/master/demo.mp4)
+
+## Screenshots
 ![ss1](https://github.com/user-attachments/assets/3c2b69c6-50bf-474b-a85f-d5c607dbfe20)
+![ss2](https://github.com/user-attachments/assets/ad417ac2-2b65-430e-b7b4-b6a1d198bf43)
+![ss3](https://github.com/user-attachments/assets/cf911c13-7751-4cda-91e6-4e0ad6db1622)
+
 
 ## Features
 
