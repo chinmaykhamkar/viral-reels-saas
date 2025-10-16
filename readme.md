@@ -20,6 +20,7 @@ A web application that generates video content by combining template videos with
 - Automatic text-to-speech timing using Deepgram API
 - Video processing with FFmpeg
 - Video streaming with range request support
+-
 
 ## Prerequisites
 
